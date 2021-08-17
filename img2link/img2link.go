@@ -1,7 +1,7 @@
 /**************************************
  * @Author: mazhuang
  * @Date: 2021-08-16 16:50:41
- * @LastEditTime: 2021-08-17 11:28:20
+ * @LastEditTime: 2021-08-17 15:07:31
  * @Description:
  **************************************/
 
@@ -66,12 +66,12 @@ func (l *link) convert() {
 		imgs []string
 		err  error
 	)
-	l.target = path.Clean(l.target)
+	l.target = filepath.Clean(l.target)
 	if l.target != "." {
-		l.target = "./" + l.target
+		l.target = "." + string(os.PathSeparator) + l.target
 	}
 	// 遍历文件
-	if path.Ext(l.target) == "" || path.Ext(l.target) == "." {
+	if filepath.Ext(l.target) == "" || filepath.Ext(l.target) == "." {
 		imgs, err = readDir(l.target)
 		if err != nil {
 			fmt.Println("scan dir err: ", err)
@@ -83,10 +83,7 @@ func (l *link) convert() {
 	// 打印输出
 	fmt.Printf("img -> %s link:\n", l.style)
 	for _, i := range imgs {
-		if i[1] == '.' {
-			i = i[1:]
-		}
-		link := l.format(i[1:])
+		link := l.format(filepath.ToSlash(strings.TrimLeft(i, ".")))
 		fmt.Printf("%s -> %s\n", i, link)
 	}
 }
@@ -113,7 +110,7 @@ func readDir(dir string) (files []string, err error) {
 			continue
 		}
 		for _, s := range imgSuffix {
-			if path.Ext(f.Name()) == s {
+			if filepath.Ext(f.Name()) == s {
 				files = append(files, dir+PthSep+f.Name())
 			}
 		}
