@@ -1,7 +1,7 @@
 /**************************************
  * @Author: mazhuang
  * @Date: 2021-08-18 18:21:56
- * @LastEditTime: 2021-08-19 14:07:44
+ * @LastEditTime: 2021-08-19 14:31:36
  * @Description:
  **************************************/
 
@@ -75,7 +75,7 @@ func (r *repository) Commit() (images []string) {
 		if isImg(f) {
 			images = append(images, f)
 		}
-		fmt.Println("git add ", f)
+		fmt.Println("git add", f)
 		_, err := r.wt.Add(f)
 		if err != nil {
 			fmt.Println("git Add err: ", err)
@@ -96,8 +96,10 @@ func (r *repository) Commit() (images []string) {
 }
 
 func (r *repository) Push() {
+	fmt.Println("start pushing ...")
 	err := r.r.Push(&git.PushOptions{})
 	if err != nil {
 		fmt.Println("push to remote err, Please push manually ")
 	}
+	fmt.Println("push done.")
 }

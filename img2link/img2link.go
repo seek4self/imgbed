@@ -1,7 +1,7 @@
 /**************************************
  * @Author: mazhuang
  * @Date: 2021-08-16 16:50:41
- * @LastEditTime: 2021-08-19 14:07:49
+ * @LastEditTime: 2021-08-19 14:32:14
  * @Description:
  **************************************/
 
@@ -76,7 +76,7 @@ func (l *link) convert() {
 		images = findImages(l.target)
 	}
 	// 打印输出
-	fmt.Printf("img -> %s link:\n", l.style)
+	fmt.Printf("convert img -> %s link:\n", l.style)
 	for _, i := range images {
 		link := l.format(filepath.ToSlash(strings.TrimLeft(i, ".")))
 		fmt.Printf("%s -> %s\n", i, link)
