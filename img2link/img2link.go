@@ -1,7 +1,7 @@
 /**************************************
  * @Author: mazhuang
  * @Date: 2021-08-16 16:50:41
- * @LastEditTime: 2021-08-19 14:32:14
+ * @LastEditTime: 2021-08-25 18:29:42
  * @Description:
  **************************************/
 
@@ -91,6 +91,9 @@ func (l link) url() string {
 }
 
 func (l link) format(img string) string {
+	if img[0] != '/' {
+		img = "/" + img
+	}
 	return mapStyle[l.style].begin + l.url() + img + mapStyle[l.style].end
 }
 
