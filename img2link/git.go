@@ -1,7 +1,7 @@
 /**************************************
  * @Author: mazhuang
  * @Date: 2021-08-18 18:21:56
- * @LastEditTime: 2021-08-19 14:31:36
+ * @LastEditTime: 2021-08-26 09:49:39
  * @Description:
  **************************************/
 
@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
 )
 
@@ -29,12 +30,12 @@ type repository struct {
 func newRepository() *repository {
 	r, err := git.PlainOpen(gitPath)
 	if err != nil {
-		fmt.Println("git init", err)
+		color.Red("git init", err)
 		os.Exit(-1)
 	}
 	wt, err := r.Worktree()
 	if err != nil {
-		fmt.Println("git worktree ", err)
+		color.Red("git worktree ", err)
 		os.Exit(-1)
 	}
 	return &repository{
@@ -48,7 +49,7 @@ func newRepository() *repository {
 func (r *repository) Addr() string {
 	o, err := r.r.Remote("origin")
 	if err != nil {
-		fmt.Println("git remote", err)
+		color.Red("git remote", err)
 		os.Exit(-1)
 	}
 	return o.Config().URLs[0]
@@ -57,7 +58,7 @@ func (r *repository) Addr() string {
 func (r *repository) Status() {
 	status, err := r.wt.Status()
 	if err != nil {
-		fmt.Println("git status ", err)
+		color.Red("git status err", err)
 		os.Exit(-1)
 	}
 	r.files = make([]string, 0)
@@ -78,17 +79,18 @@ func (r *repository) Commit() (images []string) {
 		fmt.Println("git add", f)
 		_, err := r.wt.Add(f)
 		if err != nil {
-			fmt.Println("git Add err: ", err)
+			color.Yellow("git Add err: ", err)
 		}
 	}
+	fmt.Println("")
 	r.Status()
 	commit, err := r.wt.Commit(gitCommitMsg, &git.CommitOptions{})
 	if err != nil {
-		fmt.Println("git commit err: ", err)
+		color.Red("git commit err: ", err)
 	}
 	obj, err := r.r.CommitObject(commit)
 	if err != nil {
-		fmt.Println("git commit object err: ", err)
+		color.Red("git commit object err: ", err)
 	}
 	fmt.Println(obj)
 	r.Push()
@@ -99,7 +101,8 @@ func (r *repository) Push() {
 	fmt.Println("start pushing ...")
 	err := r.r.Push(&git.PushOptions{})
 	if err != nil {
-		fmt.Println("push to remote err, Please push manually ")
+		color.Red("!!! push to remote err, Please push manually ")
+		return
 	}
 	fmt.Println("push done.")
 }

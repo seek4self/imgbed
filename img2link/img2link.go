@@ -1,7 +1,7 @@
 /**************************************
  * @Author: mazhuang
  * @Date: 2021-08-16 16:50:41
- * @LastEditTime: 2021-08-25 18:29:42
+ * @LastEditTime: 2021-08-26 09:48:49
  * @Description:
  **************************************/
 
@@ -15,6 +15,8 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 var imgSuffix = []string{".png", ".jpg", ".jpeg"}
@@ -58,7 +60,7 @@ func findImages(target string) []string {
 	}
 	images, err := readDir(target)
 	if err != nil {
-		fmt.Println("scan dir err: ", err)
+		color.Red("scan dir err: ", err)
 		os.Exit(-1)
 	}
 	return images
@@ -76,8 +78,11 @@ func (l *link) convert() {
 		images = findImages(l.target)
 	}
 	// 打印输出
-	fmt.Printf("convert img -> %s link:\n", l.style)
+	color.Cyan("\nconvert img -> %s link:\n", l.style)
 	for _, i := range images {
+		if i == "." {
+			return
+		}
 		link := l.format(filepath.ToSlash(strings.TrimLeft(i, ".")))
 		fmt.Printf("%s -> %s\n", i, link)
 	}
@@ -91,6 +96,9 @@ func (l link) url() string {
 }
 
 func (l link) format(img string) string {
+	if len(img) == 0 {
+		return ""
+	}
 	if img[0] != '/' {
 		img = "/" + img
 	}
