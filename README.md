@@ -4,12 +4,12 @@ personal image for blog
 
 ## imglink
 
-`imglink` is the tool to convert pictures into blog links
+`img2link` is the tool to convert pictures into blog links
 
 ### Usage
 
 ```text
-Usage of ./imglink:
+Usage of ./img2link:
   -c    The option to do commit before convert
   -d string
         Image link domain, choose 'cdn' to use jsDelivr CDN acceleration (default "github")
@@ -26,11 +26,11 @@ Usage of ./imglink:
 You can directly convert the submitted image into a blog link like this:
 
 ```bash
-./imglink -c -m "upload images" -d cdn
+./bin/img2link_unix -c -m "upload images" -d cdn
 ```
 
 Or convert the pictures in the specified folder to blog links:
 
 ```bash
-./imglink -t ./img/blog -s url
+./bin/img2link_unix -t ./img/blog -s url
 ```
