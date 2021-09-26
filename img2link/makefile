@@ -10,7 +10,7 @@ build-mac :
 	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 ${GC} build -ldflags -w -o ${RELEASE_DIR}/${APP_NAME}_mac ${MAIN_GO_Dir}
 
 build-win :
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 ${GC} build -ldflags -w -o ${RELEASE_DIR}/${APP_NAME}_win ${MAIN_GO_Dir}
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 ${GC} build -ldflags -w -o ${RELEASE_DIR}/${APP_NAME}_win.exe ${MAIN_GO_Dir}
 
 build :
 	make build-unix
